@@ -1,16 +1,14 @@
 import React from 'react';
 
 import FilterTable from 'app/components/FilterTable';
+import data from 'app/mocks/data';
 
-interface FishListProps {
-}
+interface FishListProps {}
 
 const FishList: React.FC<FishListProps> = (props) => {
 	document.title = 'Fish List | ACE';
 
-	return (
-		<FilterTable />
-	);
+	return <FilterTable data={data.fish} />;
 };
 
 export default FishList;

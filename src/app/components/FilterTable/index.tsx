@@ -31,10 +31,6 @@ export interface DataItem {
 	size: string;
 }
 
-interface Data {
-	fish: DataItem[];
-}
-
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 	if (b[orderBy] < a[orderBy]) {
 		return -1;
@@ -218,7 +214,11 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
-export default function EnhancedTable({ data })<DataItem[]> {
+interface DataProps {
+	data: DataItem[];
+}
+
+const EnhancedTable: React.FC<DataProps> = ({ data }) => {
 	const classes = useStyles();
 	const [order, setOrder] = React.useState<Order>('asc');
 	const [orderBy, setOrderBy] = React.useState<keyof DataItem>('id');
@@ -348,4 +348,6 @@ export default function EnhancedTable({ data })<DataItem[]> {
 			<FormControlLabel control={<Switch checked={dense} onChange={handleChangeDense} />} label="Dense padding" />
 		</div>
 	);
-}
+};
+
+export default EnhancedTable;
