@@ -1,12 +1,10 @@
 import React from 'react';
+import FilterTable from './components/FilterTable/index';
 
-interface AppProps {
-}
+interface AppProps {}
 
 const App: React.FC<AppProps> = (props) => {
-	return (
-		<p>Hello World!</p>
-	);
+	return <FilterTable />;
 };
 
 export default App;
