@@ -1,0 +1,6 @@
+plugins/**
+
+config.xml
+cordova.js
+cordova_plugins.js
+manifest.json
