@@ -12,7 +12,6 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -112,14 +111,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 	return (
 		<TableHead>
 			<TableRow>
-				<TableCell padding="checkbox">
-					<Checkbox
-						indeterminate={numSelected > 0 && numSelected < rowCount}
-						checked={rowCount > 0 && numSelected === rowCount}
-						onChange={onSelectAllClick}
-						inputProps={{ 'aria-label': 'select all desserts' }}
-					/>
-				</TableCell>
 				{headCells.map((headCell) => (
 					<TableCell
 						key={headCell.id}
@@ -329,15 +320,6 @@ export default function EnhancedTable() {
 											key={row.name}
 											selected={isItemSelected}
 										>
-											<TableCell padding="checkbox">
-												<Checkbox
-													checked={isItemSelected}
-													inputProps={{ 'aria-labelledby': labelId }}
-												/>
-											</TableCell>
-											<TableCell component="th" id={labelId} scope="row" padding="none">
-												{row.name}
-											</TableCell>
 											<TableCell align="right">{row.id}</TableCell>
 											<TableCell align="right">{row.name}</TableCell>
 											<TableCell align="right">{row.location}</TableCell>
