@@ -18,9 +18,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import data from '../../mocks/data';
 
-interface DataItem {
+export interface DataItem {
 	id: number;
 	name: string;
 	location: string;
@@ -35,12 +34,6 @@ interface DataItem {
 interface Data {
 	fish: DataItem[];
 }
-
-// const createData = (name: string, calories: number, fat: number, carbs: number, protein: number): DataItem => {
-// 	return { item };
-// };
-
-const rows = (data.fish as DataItem[]).map((item): DataItem => item);
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 	if (b[orderBy] < a[orderBy]) {
@@ -225,7 +218,7 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
-export default function EnhancedTable() {
+export default function EnhancedTable({ data })<DataItem[]> {
 	const classes = useStyles();
 	const [order, setOrder] = React.useState<Order>('asc');
 	const [orderBy, setOrderBy] = React.useState<keyof DataItem>('id');
@@ -233,6 +226,8 @@ export default function EnhancedTable() {
 	const [page, setPage] = React.useState(0);
 	const [dense, setDense] = React.useState(false);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+	const rows = data.map((item): DataItem => item);
 
 	const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof DataItem) => {
 		const isAsc = orderBy === property && order === 'asc';
