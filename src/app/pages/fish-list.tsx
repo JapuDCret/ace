@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FilterTable from 'app/components/FilterTable/FilterTable';
+import EnhancedTable from 'app/components/EnhancedTable';
 import data from 'app/mocks/data';
 
 interface FishListProps {}
@@ -8,7 +8,7 @@ interface FishListProps {}
 const FishList: React.FC<FishListProps> = (props) => {
 	document.title = 'Fish List | ACE';
 
-	return <FilterTable data={data.fish} />;
+	return <EnhancedTable data={data.fish} />;
 };
 
 export default FishList;

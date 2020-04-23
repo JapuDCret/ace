@@ -1,23 +1,18 @@
 import React from 'react';
-import clsx from 'clsx';
-import { createStyles, lighten, makeStyles, Theme } from '@material-ui/core/styles';
+
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
+
+import EnhancedTableHead, { Order } from 'app/components/EnhancedTable/EnhancedTableHead';
+import EnhancedTableToolbar from 'app/components/EnhancedTable/EnhancedTableToolbar';
 
 export interface DataItem {
 	id: number;
@@ -41,8 +36,6 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 	return 0;
 }
 
-type Order = 'asc' | 'desc';
-
 function getComparator<Key extends keyof any>(
 	order: Order,
 	orderBy: Key
@@ -62,133 +55,7 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
 	return stabilizedThis.map((el) => el[0]);
 }
 
-interface HeadCell {
-	disablePadding: boolean;
-	id: keyof DataItem;
-	label: string;
-	numeric: boolean;
-}
-
-const headCells: HeadCell[] = [
-	{ id: 'id', numeric: true, disablePadding: true, label: 'Id' },
-	{ id: 'name', numeric: false, disablePadding: false, label: 'Name' },
-	{ id: 'location', numeric: false, disablePadding: false, label: 'Location' },
-	{ id: 'price', numeric: true, disablePadding: false, label: 'Price' },
-	{ id: 'shadow_size', numeric: false, disablePadding: false, label: 'Shadow Size' },
-	{ id: 'time_of_day', numeric: false, disablePadding: false, label: 'Time of Day' },
-	{ id: 'rarity', numeric: false, disablePadding: false, label: 'rarity' },
-	{ id: 'scientific_name', numeric: false, disablePadding: false, label: 'scientific_name' },
-	{ id: 'size', numeric: false, disablePadding: false, label: 'size' },
-];
-
-interface EnhancedTableProps {
-	classes: ReturnType<typeof useStyles>;
-	numSelected: number;
-	onRequestSort: (event: React.MouseEvent<unknown>, property: keyof DataItem) => void;
-	onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	order: Order;
-	orderBy: string;
-	rowCount: number;
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
-	const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-	const createSortHandler = (property: keyof DataItem) => (event: React.MouseEvent<unknown>) => {
-		onRequestSort(event, property);
-	};
-
-	return (
-		<TableHead>
-			<TableRow>
-				{headCells.map((headCell) => (
-					<TableCell
-						key={headCell.id}
-						align={headCell.numeric ? 'right' : 'left'}
-						padding={headCell.disablePadding ? 'none' : 'default'}
-						sortDirection={orderBy === headCell.id ? order : false}
-					>
-						<TableSortLabel
-							active={orderBy === headCell.id}
-							direction={orderBy === headCell.id ? order : 'asc'}
-							onClick={createSortHandler(headCell.id)}
-						>
-							{headCell.label}
-							{orderBy === headCell.id ? (
-								<span className={classes.visuallyHidden}>
-									{order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-								</span>
-							) : null}
-						</TableSortLabel>
-					</TableCell>
-				))}
-			</TableRow>
-		</TableHead>
-	);
-}
-
-const useToolbarStyles = makeStyles((theme: Theme) =>
-	createStyles({
-		root: {
-			paddingLeft: theme.spacing(2),
-			paddingRight: theme.spacing(1),
-		},
-		highlight:
-			theme.palette.type === 'light'
-				? {
-						color: theme.palette.secondary.main,
-						backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-				  }
-				: {
-						color: theme.palette.text.primary,
-						backgroundColor: theme.palette.secondary.dark,
-				  },
-		title: {
-			flex: '1 1 100%',
-		},
-	})
-);
-
-interface EnhancedTableToolbarProps {
-	numSelected: number;
-}
-
-const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-	const classes = useToolbarStyles();
-	const { numSelected } = props;
-
-	return (
-		<Toolbar
-			className={clsx(classes.root, {
-				[classes.highlight]: numSelected > 0,
-			})}
-		>
-			{numSelected > 0 ? (
-				<Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-					{numSelected} selected
-				</Typography>
-			) : (
-				<Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-					Nutrition
-				</Typography>
-			)}
-			{numSelected > 0 ? (
-				<Tooltip title="Delete">
-					<IconButton aria-label="delete">
-						<DeleteIcon />
-					</IconButton>
-				</Tooltip>
-			) : (
-				<Tooltip title="Filter list">
-					<IconButton aria-label="filter list">
-						<FilterListIcon />
-					</IconButton>
-				</Tooltip>
-			)}
-		</Toolbar>
-	);
-};
-
-const useStyles = makeStyles((theme: Theme) =>
+export const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		root: {
 			width: '100%',
