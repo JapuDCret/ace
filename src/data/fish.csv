@@ -1,0 +1,81 @@
+id;name;description;price;location;shadow;time;jan;feb;mar;apr;may;jun;jul;aug;sep;oct;nov;dez
+1;Bitterling;;900;River;Tiny;All day;1;1;1;0;0;0;0;0;0;0;1;1
+2;Pale Chub;;160;River;Tiny;9:00 - 16:00;1;1;1;1;1;1;1;1;1;1;1;1
+3;Crucian Carp;;160;River;Small;All day;1;1;1;1;1;1;1;1;1;1;1;1
+4;Dace;;240;River;Medium;16:00 - 9:00;1;1;1;1;1;1;1;1;1;1;1;1
+5;Carp;;300;Pond;Large;All day;1;1;1;1;1;1;1;1;1;1;1;1
+6;Koi;;4000;Pond;Large;16:00 - 9:00;1;1;1;1;1;1;1;1;1;1;1;1
+7;Goldfish;;1300;Pond;Tiny;All day;1;1;1;1;1;1;1;1;1;1;1;1
+8;Pop-eyed Goldfish;;1300;Pond;Tiny;9:00 - 16:00;1;1;1;1;1;1;1;1;1;1;1;1
+9;Ranchu Goldfish;;4500;Pond;Small;9:00 - 16:00;1;1;1;1;1;1;1;1;1;1;1;1
+10;Killifish;;300;Pond;Tiny;All day;0;0;0;1;1;1;1;1;0;0;0;0
+11;Crawfish;;200;Pond;Small;All day;0;0;0;1;1;1;1;1;1;0;0;0
+12;Soft-shelled Turtle;;3750;River;Large;16:00 - 9:00;0;0;0;0;0;0;0;1;1;0;0;0
+13;Snapping Turtle;;5000;River;Large;21:00 - 4:00;0;0;0;1;1;1;1;1;1;1;0;0
+14;Tadpole;;100;Pond;Tiny;All day;0;0;1;1;1;1;1;0;0;0;0;0
+15;Frog;;120;Pond;Small;All day;0;0;0;0;1;1;1;1;0;0;0;0
+16;Freshwater Goby;;400;River;Small;16:00 - 9:00;1;1;1;1;1;1;1;1;1;1;1;1
+17;Loach;;400;River;Small;All day;0;0;1;1;1;0;0;0;0;0;0;0
+18;Catfish;;800;Pond;Large;16:00 - 9:00;0;0;0;0;1;1;1;1;1;1;0;0
+19;Giant Snakehead;;5500;Pond;VeryLarge;9:00 - 16:00;0;0;0;0;0;1;1;1;0;0;0;0
+20;Bluegill;;180;River;Small;9:00 - 16:00;1;1;1;1;1;1;1;1;1;1;1;1
+21;Yellow Perch;;300;River;Medium;All day;1;1;1;0;0;0;0;0;0;1;1;1
+22;Black Bass;;400;River;Large;All day;1;1;1;1;1;1;1;1;1;1;1;1
+23;Tilapia;;800;River;Medium;All day;0;0;0;0;0;1;1;1;1;1;0;0
+24;Pike;;1800;River;VeryLarge;All day;0;0;0;0;0;0;0;0;1;1;1;1
+25;Pond Smelt;;500;River;Small;All day;1;1;0;0;0;0;0;0;0;0;0;1
+26;Sweetfish;;900;River;Medium;All day;0;0;0;0;0;0;1;1;1;0;0;0
+27;Cherry Salmon;;1000;River (Clifftop);Medium;16:00 - 9:00;0;0;1;1;1;1;0;0;1;1;1;0
+28;Char;;3800;River (Clifftop);Medium;All day;0;0;1;1;1;1;0;0;1;1;1;0
+29;Golden Trout;;15000;River (Clifftop);Medium;All day;0;0;1;1;1;0;0;0;1;1;1;0
+30;Stringfish;;15000;River (Clifftop);Huge;16:00 - 9:00;1;1;1;0;0;0;0;0;0;0;0;1
+31;Salmon;;700;River (Mouth);Large;All day;0;0;0;0;0;0;0;0;1;0;0;0
+32;King Salmon;;1800;River (Mouth);Huge;All day;0;0;0;0;0;0;0;0;1;0;0;0
+33;Mitten Crab;;2000;River;Small;16:00 - 9:00;0;0;0;0;0;0;0;0;1;1;1;0
+34;Guppy;;1300;River;Tiny;9:00 - 16:00;0;0;0;1;1;1;1;1;1;1;1;0
+35;Nibble Fish;;1500;River;Small;9:00 - 16:00;0;0;0;0;1;1;1;1;1;0;0;0
+36;Angelfish;;3000;River;Small;16:00 - 9:00;0;0;0;0;1;1;1;1;1;1;0;0
+37;Betta;;2500;River;Small;9:00 - 16:00;0;0;0;0;1;1;1;1;1;1;0;0
+38;Neon Tetra;;500;River;Tiny;9:00 - 16:00;0;0;0;1;1;1;1;1;1;1;1;0
+39;Rainbowfish;;800;River;Tiny;9:00 - 16:00;0;0;0;0;1;1;1;1;1;1;0;0
+40;Piranha;;2500;River;Small;"9:00 - 16:00 ; 21:00 - 4:00";0;0;0;0;0;1;1;1;1;0;0;0
+41;Arowana;;10000;River;Large;16:00 - 9:00;0;0;0;0;0;1;1;1;1;0;0;0
+42;Dorado;;15000;River;VeryLarge;4:00 - 21:00;0;0;0;0;0;1;1;1;1;0;0;0
+43;Gar;;6000;Pond;Huge;16:00 - 9:00;0;0;0;0;0;1;1;1;1;0;0;0
+44;Arapaima;;10000;River;Huge;16:00 - 9:00;0;0;0;0;0;1;1;1;1;0;0;0
+45;Saddled Bichir;;4000;River;Large;21:00 - 4:00;0;0;0;0;0;1;1;1;1;0;0;0
+46;Sturgeon;;10000;River (Mouth);Huge;All day;1;1;1;0;0;0;0;0;1;1;1;1
+47;Sea Butterfly;;1000;Sea;Tiny;All day;1;1;1;0;0;0;0;0;0;0;0;1
+48;Sea Horse;;1100;Sea;Tiny;All day;0;0;0;1;1;1;1;1;1;1;1;0
+49;Clown Fish;;650;Sea;Tiny;All day;0;0;0;1;1;1;1;1;1;0;0;0
+50;Surgeonfish;;1000;Sea;Small;All day;0;0;0;1;1;1;1;1;1;0;0;0
+51;Butterfly Fish;;1000;Sea;Small;All day;0;0;0;1;1;1;1;1;1;0;0;0
+52;Napoleonfish;;10000;Sea;Huge;4:00 - 21:00;0;0;0;0;0;0;1;1;0;0;0;0
+53;Zebra Turkeyfish;;500;Sea;Medium;All day;0;0;0;1;1;1;1;1;1;1;1;0
+54;Blowfish;;5000;Sea;Medium;21:00 - 4:00;1;1;0;0;0;0;0;0;0;0;1;1
+55;Puffer Fish;;250;Sea;Medium;All day;0;0;0;0;0;0;1;1;1;0;0;0
+56;Anchovy;;200;Sea;Small;4:00 - 21:00;1;1;1;1;1;1;1;1;1;1;1;1
+57;Horse Mackerel;;150;Sea;Small;All day;1;1;1;1;1;1;1;1;1;1;1;1
+58;Barred Knifejaw;;5000;Sea;Medium;All day;0;0;1;1;1;1;1;1;1;1;1;0
+59;Sea Bass;;400;Sea;VeryLarge;All day;1;1;1;1;1;1;1;1;1;1;1;1
+60;Red Snapper;;3000;Sea;Large;All day;1;1;1;1;1;1;1;1;1;1;1;1
+61;Dab;;300;Sea;Medium;All day;1;1;1;1;0;0;0;0;0;1;1;1
+62;Olive Flounder;;800;Sea;VeryLarge;All day;1;1;1;1;1;1;1;1;1;1;1;1
+63;Squid;;500;Sea;Medium;All day;1;1;1;1;1;1;1;1;0;0;0;1
+64;Moray Eel;;2000;Sea;Narrow;All day;0;0;0;0;0;0;0;1;1;1;0;0
+65;Ribbon Eel;;600;Sea;Narrow;All day;0;0;0;0;0;1;1;1;1;1;0;0
+66;Tuna;;7000;Pier;Huge;All day;1;1;1;1;0;0;0;0;0;0;1;1
+67;Blue Marlin;;10000;Pier;Huge;All day;1;1;1;1;0;0;1;1;1;0;1;1
+68;Giant Trevally;;4500;Pier;Large;All day;0;0;0;0;1;1;1;1;1;1;0;0
+69;Mahi-mahi;;6000;Pier;Large;All day;0;0;0;0;1;1;1;1;1;1;0;0
+70;Ocean Sunfish;;4000;Sea;Finned;4:00 - 21:00;0;0;0;0;0;0;1;1;1;0;0;0
+71;Ray;;3000;Sea;VeryLarge;4:00 - 21:00;0;0;0;0;0;0;0;1;1;1;1;0
+72;Saw Shark;;12000;Sea;Finned;16:00 - 9:00;0;0;0;0;0;1;1;1;1;0;0;0
+73;Hammerhead Shark;;8000;Sea;Finned;16:00 - 9:00;0;0;0;0;0;1;1;1;1;0;0;0
+74;Great White Shark;;15000;Sea;Finned;16:00 - 9:00;0;0;0;0;0;1;1;1;1;0;0;0
+75;Whale Shark;;13000;Sea;Finned;All day;0;0;0;0;0;1;1;1;1;0;0;0
+76;Suckerfish;;1500;Sea;Finned;All day;0;0;0;0;0;1;1;1;1;0;0;0
+77;Football Fish;;2500;Sea;Large;16:00 - 9:00;1;1;1;0;0;0;0;0;0;0;1;1
+78;Oarfish;;9000;Sea;Huge;All day;1;1;1;1;1;0;0;0;0;0;0;1
+79;Barreleye;;15000;Sea;Small;21:00 - 4:00;1;1;1;1;1;1;1;1;1;1;1;1
+80;Coelacanth;;15000;Sea (Rain);Huge;All day;1;1;1;1;1;1;1;1;1;1;1;1
