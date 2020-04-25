@@ -40,7 +40,8 @@ module.exports = {
 		alias: {
 			app: path.resolve(__dirname, 'src/app/'),
 			$shared: path.resolve(__dirname, 'src/app/shared'),
-			'~': path.resolve(__dirname, 'src/app/ui')
+			'~': path.resolve(__dirname, 'src/app/ui'),
+			assets: path.resolve(__dirname, 'src/assets/'),
 		}
 	},
 	module: {
