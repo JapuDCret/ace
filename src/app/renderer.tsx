@@ -8,17 +8,14 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
 import { customTheme } from 'app/theme';
-import i18n, { SupportedLanguage } from 'app/i18n';
+import i18n from 'app/i18n';
 import App from 'app/app';
 import DataProvider from 'app/providers/DataProvider';
 
-interface RendererProps {
-}
+interface RendererProps {}
 
-const Renderer: React.FC<RendererProps> = (props) => {
-    const [ lang, setLang ] = React.useState<SupportedLanguage>('en-US');
-
-	i18n.changeLanguage(lang);
+const Renderer: React.FC<RendererProps> = () => {
+	i18n.changeLanguage(navigator.language);
 
 	return (
 		<ThemeProvider theme={customTheme}>
