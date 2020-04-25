@@ -94,11 +94,12 @@ const FishList: FC<FishListProps> = (props) => {
 						return true;
 					}
 
-					let filterMinutes = timeFilter.getHours() * 60 + timeFilter.getMinutes();
-					let startMinutes = spawnBracket.startHours * 60 + spawnBracket.startMinutes;
-					let endMinutes = spawnBracket.endHours * 60 + spawnBracket.endMinutes;
+					let filterMinutes = timeFilter.getHours() * 60 + timeFilter.getMinutes(); // 83
+					let startMinutes = spawnBracket.startHours * 60 + spawnBracket.startMinutes; // 16:00 => 960
+					let endMinutes = spawnBracket.endHours * 60 + spawnBracket.endMinutes; // 09:00 => 540
 					if (startMinutes > endMinutes) {
-						endMinutes += 24 * 60;
+						filterMinutes += 24 * 60; // 540 + 3600 => 4140
+						endMinutes += 24 * 60; // 540 + 3600 => 4140
 					}
 
 					if (filterMinutes >= startMinutes) {
@@ -242,7 +243,7 @@ const FishList: FC<FishListProps> = (props) => {
 				</Grid>
 				<Grid item xs={12}>
 					<EnhancedTable
-						title="Fish List"
+						title={`Fist List (${fishData.length}/${data.fish.length})`}
 						columns={columnDefs}
 						data={fishData}
 						options={{
