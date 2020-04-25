@@ -118,7 +118,7 @@ module.exports = {
 				}
 			},
 			{
-				test: /\.(jpe?g|gif|bmp|mp3|mp4|ogg|wav|eot|ttf|woff|woff2)$/,
+				test: /\.(jpe?g|gif|bmp|mp3|mp4|ogg|wav|eot|ttf|woff|woff2|csv|json)$/,
 				use: 'file-loader'
 			}
 		]
