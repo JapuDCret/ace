@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { FC, useState, useContext, useMemo } from 'react';
 
 import { Column } from 'material-table';
 
@@ -57,7 +57,7 @@ const columnDefs: Array<Column<Fish>> = [
 
 interface FishListProps {}
 
-const FishList: React.FC<FishListProps> = (props) => {
+const FishList: FC<FishListProps> = (props) => {
 	document.title = 'Fish List | ACE';
 
 	const data = useContext(DataContext);
@@ -67,11 +67,9 @@ const FishList: React.FC<FishListProps> = (props) => {
 
 	let currentMonth = getMonthFromDate(now);
 
-	const [timeFilter, setTimeFilter] = React.useState<Date | null>(now);
-	const [monthFilter, setMonthFilter] = React.useState<MonthAlias[]>([currentMonth]);
-	const [locationFilter, setLocationFilter] = React.useState<string>('');
-
-	console.log('data.fish = ', data.fish);
+	const [timeFilter, setTimeFilter] = useState<Date | null>(now);
+	const [monthFilter, setMonthFilter] = useState<MonthAlias[]>([currentMonth]);
+	const [locationFilter, setLocationFilter] = useState<string>('');
 
 	const locations = useMemo(() => {
 		let fishData = data.fish;
@@ -121,30 +119,18 @@ const FishList: React.FC<FishListProps> = (props) => {
 
 		if (monthFilter.length > 0) {
 			// filter month
-			fishData = fishData.filter((fish) => {
-				let isWithinMonth = false;
-
-				for (const month of monthFilter) {
-					const doesSpawnThisMonth = fish[month];
-
-					isWithinMonth = isWithinMonth || doesSpawnThisMonth;
-				}
-
-				return isWithinMonth;
-			});
+			fishData = fishData.filter((fish) => monthFilter.filter((month) => fish[month]).length > 0);
 		}
 
 		return fishData;
 	}, [data, timeFilter, locationFilter, monthFilter]);
-
-	console.log('fishData = ', fishData);
 
 	return (
 		<div>
 			<Grid container spacing={1}>
 				<Grid item xs={12}>
 					<Grid container justify="space-around">
-						<Grid item xs={2} alignItems="center">
+						<Grid item xs={2}>
 							<div style={{ display: 'flex', alignItems: 'center' }}>
 								<TextField
 									id="month-filter"
@@ -157,7 +143,6 @@ const FishList: React.FC<FishListProps> = (props) => {
 									fullWidth
 									value={monthFilter}
 									onChange={(e) => {
-										console.log('e.target.value = ', e.target.value);
 										setMonthFilter((e.target.value as any) as MonthAlias[]);
 									}}
 								>
@@ -205,7 +190,7 @@ const FishList: React.FC<FishListProps> = (props) => {
 							</div>
 						</Grid>
 
-						<Grid item xs={2} alignItems="center">
+						<Grid item xs={2}>
 							<div style={{ display: 'flex', alignItems: 'center' }}>
 								<KeyboardTimePicker
 									margin="normal"
@@ -228,7 +213,7 @@ const FishList: React.FC<FishListProps> = (props) => {
 							</div>
 						</Grid>
 
-						<Grid item xs={2} alignItems="center">
+						<Grid item xs={2}>
 							<div style={{ display: 'flex', alignItems: 'center' }}>
 								<TextField
 									id="location-filter"
