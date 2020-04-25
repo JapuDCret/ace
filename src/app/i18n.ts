@@ -7,33 +7,33 @@ type LanguageMap = {
 	[key in SupportedLanguage]: {
 		translation: {
 			[key: string]: string;
-		}
-	}
-}
+		};
+	};
+};
 
 const resources: LanguageMap = {
 	'en-US': {
-	  translation: {
-		'test': 'Welcome to React and react-i18next'
-	  }
+		translation: {
+			test: 'Welcome to React and react-i18next',
+		},
 	},
 	'de-DE': {
-	  translation: {
-		'test': 'Welcome to React and react-i18next'
-	  }
-	}
-  };
+		translation: {
+			test: 'Welcome to React and react-i18next',
+		},
+	},
+};
 
 i18n
 	// .use(Backend)
 	// .use(LanguageDetector)
 	.use(initReactI18next) // bind react-i18next to the instance
 	.init({
-
 		resources,
 		lng: 'en-US',
 
 		fallbackLng: ['en-US', 'de-DE'],
+		whitelist: ['en-US', 'de-DE'],
 		debug: true,
 
 		interpolation: {
