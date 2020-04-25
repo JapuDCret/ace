@@ -1,36 +1,33 @@
 import { CSVToArray } from 'app/utils/CSVToArray';
 
 export async function readCsvFile(uri: string, skipFirstLine = true): Promise<string[][]> {
-    
-    const response = await fetch(uri);
-    if (!response.ok) {
-        throw Error('response was not ok: ' + response);
-    }
-    
-    let csvData = await response.text();
-    
-    if(csvData === undefined) {
-        throw Error('csvData is undefined');
-    }
+	const response = await fetch(uri);
+	if (!response.ok) {
+		throw Error('response was not ok: ' + response);
+	}
 
-    csvData = csvData.trim();
+	let csvData = await response.text();
 
-    if (skipFirstLine) {
-        const firstLineBreakPos = csvData.indexOf('\n');
+	if (csvData === undefined) {
+		throw Error('csvData is undefined');
+	}
 
-        csvData = csvData.substring(firstLineBreakPos + 1);
-    }
-    
-    // const lastLineBreakPos = csvData.lastIndexOf('\n');
-    // if (lastLineBreakPos === csvData.length) {
-    //     csvData.substring(0, lastLineBreakPos - 1);
-    // }
+	csvData = csvData.trim();
 
-    console.log('csvData = ', csvData);
+	if (skipFirstLine) {
+		const firstLineBreakPos = csvData.indexOf('\n');
 
-    const jsonData = CSVToArray(csvData, ';');
+		csvData = csvData.substring(firstLineBreakPos + 1);
+	}
 
-    console.log('jsonData = ', jsonData);
+	// const lastLineBreakPos = csvData.lastIndexOf('\n');
+	// if (lastLineBreakPos === csvData.length) {
+	//     csvData.substring(0, lastLineBreakPos - 1);
+	// }
 
-    return jsonData;
+	const jsonData = CSVToArray(csvData, ';');
+
+	console.log('jsonData = ', jsonData);
+
+	return jsonData;
 }
