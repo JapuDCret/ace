@@ -13,9 +13,9 @@ import ClearIcon from '@material-ui/icons/Clear';
 import EnhancedTable from 'app/components/EnhancedTable';
 import { DataContext, Fish } from 'app/providers/DataProvider/DataProvider';
 import { ConfigContext } from 'app/app';
-import TouchRipple from '@material-ui/core/ButtonBase/TouchRipple';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
+import { getMonthFromDate, MonthAlias } from 'app/utils/date-utils';
 
 const columnDefs: Array<Column<Fish>> = [
 	{
@@ -47,12 +47,12 @@ const columnDefs: Array<Column<Fish>> = [
 			return (
 				<List>
 					{data.times.map((spawnBracket) => {
-						return <ListItem key={spawnBracket.label}>{spawnBracket.label}</ListItem>
+						return <ListItem key={spawnBracket.label}>{spawnBracket.label}</ListItem>;
 					})}
 				</List>
 			);
-		}
-	}
+		},
+	},
 ];
 
 interface FishListProps {}
@@ -63,8 +63,13 @@ const FishList: React.FC<FishListProps> = (props) => {
 	const data = useContext(DataContext);
 	const config = useContext(ConfigContext);
 
-	const [ timeFilter, setTimeFilter ] = React.useState<Date | null>(new Date());
-	const [ locationFilter, setLocationFilter ] = React.useState<string>('');
+	const now = new Date();
+
+	let currentMonth = getMonthFromDate(now);
+
+	const [timeFilter, setTimeFilter] = React.useState<Date | null>(now);
+	const [monthFilter, setMonthFilter] = React.useState<MonthAlias[]>([currentMonth]);
+	const [locationFilter, setLocationFilter] = React.useState<string>('');
 
 	console.log('data.fish = ', data.fish);
 
@@ -72,7 +77,7 @@ const FishList: React.FC<FishListProps> = (props) => {
 		let fishData = data.fish;
 
 		const locationSet = new Set<string>();
-		
+
 		for (const fish of fishData) {
 			locationSet.add(fish.location);
 		}
@@ -90,7 +95,7 @@ const FishList: React.FC<FishListProps> = (props) => {
 					if (spawnBracket.label === 'All day') {
 						return true;
 					}
-					
+
 					let filterMinutes = timeFilter.getHours() * 60 + timeFilter.getMinutes();
 					let startMinutes = spawnBracket.startHours * 60 + spawnBracket.startMinutes;
 					let endMinutes = spawnBracket.endHours * 60 + spawnBracket.endMinutes;
@@ -98,13 +103,13 @@ const FishList: React.FC<FishListProps> = (props) => {
 						endMinutes += 24 * 60;
 					}
 
-					if (filterMinutes >= startMinutes ) {
-						if (filterMinutes <= endMinutes ) {
+					if (filterMinutes >= startMinutes) {
+						if (filterMinutes <= endMinutes) {
 							return true;
 						}
 					}
 				}
-	
+
 				return false;
 			});
 		}
@@ -114,16 +119,92 @@ const FishList: React.FC<FishListProps> = (props) => {
 			fishData = fishData.filter((fish) => fish.location === locationFilter);
 		}
 
-		return fishData;
-	}, [data, locationFilter]);
+		if (monthFilter.length > 0) {
+			// filter month
+			fishData = fishData.filter((fish) => {
+				let isWithinMonth = false;
 
-	console.log('fishData = ', fishData)
+				for (const month of monthFilter) {
+					const doesSpawnThisMonth = fish[month];
+
+					isWithinMonth = isWithinMonth || doesSpawnThisMonth;
+				}
+
+				return isWithinMonth;
+			});
+		}
+
+		return fishData;
+	}, [data, timeFilter, locationFilter, monthFilter]);
+
+	console.log('fishData = ', fishData);
 
 	return (
 		<div>
 			<Grid container spacing={1}>
 				<Grid item xs={12}>
 					<Grid container justify="space-around">
+						<Grid item xs={2} alignItems="center">
+							<div style={{ display: 'flex', alignItems: 'center' }}>
+								<TextField
+									id="month-filter"
+									label="Month"
+									select
+									SelectProps={{
+										multiple: true,
+									}}
+									variant="outlined"
+									fullWidth
+									value={monthFilter}
+									onChange={(e) => {
+										console.log('e.target.value = ', e.target.value);
+										setMonthFilter((e.target.value as any) as MonthAlias[]);
+									}}
+								>
+									{/* <MenuItem key={'empty'} value={''}></MenuItem> */}
+									<MenuItem key={'jan'} value={'jan'}>
+										January
+									</MenuItem>
+									<MenuItem key={'feb'} value={'feb'}>
+										February
+									</MenuItem>
+									<MenuItem key={'mar'} value={'mar'}>
+										March
+									</MenuItem>
+									<MenuItem key={'apr'} value={'apr'}>
+										April
+									</MenuItem>
+									<MenuItem key={'may'} value={'may'}>
+										May
+									</MenuItem>
+									<MenuItem key={'jun'} value={'jun'}>
+										June
+									</MenuItem>
+									<MenuItem key={'jul'} value={'jul'}>
+										July
+									</MenuItem>
+									<MenuItem key={'aug'} value={'aug'}>
+										August
+									</MenuItem>
+									<MenuItem key={'sep'} value={'sep'}>
+										September
+									</MenuItem>
+									<MenuItem key={'oct'} value={'oct'}>
+										October
+									</MenuItem>
+									<MenuItem key={'nov'} value={'nov'}>
+										November
+									</MenuItem>
+									<MenuItem key={'dec'} value={'dec'}>
+										December
+									</MenuItem>
+								</TextField>
+								<IconButton onClick={() => setMonthFilter([])}>
+									<ClearIcon />
+								</IconButton>
+							</div>
+						</Grid>
+
 						<Grid item xs={2} alignItems="center">
 							<div style={{ display: 'flex', alignItems: 'center' }}>
 								<KeyboardTimePicker
@@ -146,7 +227,7 @@ const FishList: React.FC<FishListProps> = (props) => {
 								</IconButton>
 							</div>
 						</Grid>
-						
+
 						<Grid item xs={2} alignItems="center">
 							<div style={{ display: 'flex', alignItems: 'center' }}>
 								<TextField
@@ -161,7 +242,9 @@ const FishList: React.FC<FishListProps> = (props) => {
 									<MenuItem key={'empty'} value={''}></MenuItem>
 									{locations.map((location) => {
 										return (
-										<MenuItem key={location} value={location}>{location}</MenuItem>
+											<MenuItem key={location} value={location}>
+												{location}
+											</MenuItem>
 										);
 									})}
 								</TextField>
@@ -177,14 +260,12 @@ const FishList: React.FC<FishListProps> = (props) => {
 						title="Fish List"
 						columns={columnDefs}
 						data={fishData}
-						options={
-							{
-								search: true,
-								columnsButton: true,
-								paging: false,
-								sorting: true,
-							}
-						}
+						options={{
+							search: true,
+							columnsButton: true,
+							paging: false,
+							sorting: true,
+						}}
 					/>
 				</Grid>
 			</Grid>
