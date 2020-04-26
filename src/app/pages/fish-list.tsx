@@ -128,10 +128,10 @@ const FishList: FC<FishListProps> = (props) => {
 
 	return (
 		<div>
-			<Grid container spacing={1}>
+			<Grid container spacing={4} style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
 				<Grid item xs={12}>
-					<Grid container justify="space-around">
-						<Grid item xs={2}>
+					<Grid container justify="space-between" spacing={2}>
+						<Grid item xs={12} md={6} lg={2}>
 							<div style={{ display: 'flex', alignItems: 'center' }}>
 								<TextField
 									id="month-filter"
@@ -191,14 +191,15 @@ const FishList: FC<FishListProps> = (props) => {
 							</div>
 						</Grid>
 
-						<Grid item xs={2}>
+						<Grid item xs={12} md={6} lg={2}>
 							<div style={{ display: 'flex', alignItems: 'center' }}>
 								<KeyboardTimePicker
-									margin="normal"
+									margin="none"
 									id="time-filter"
 									label="Time"
 									fullWidth
 									value={timeFilter}
+									inputVariant="outlined"
 									onChange={(date) => {
 										setTimeFilter(date);
 									}}
@@ -214,7 +215,7 @@ const FishList: FC<FishListProps> = (props) => {
 							</div>
 						</Grid>
 
-						<Grid item xs={2}>
+						<Grid item xs={12} md={6} lg={2}>
 							<div style={{ display: 'flex', alignItems: 'center' }}>
 								<TextField
 									id="location-filter"
