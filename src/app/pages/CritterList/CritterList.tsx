@@ -11,13 +11,13 @@ import { KeyboardTimePicker } from '@material-ui/pickers';
 import ClearIcon from '@material-ui/icons/Clear';
 
 import EnhancedTable from 'app/components/EnhancedTable';
-import { DataContext, Fish } from 'app/providers/DataProvider/DataProvider';
+import { DataContext, Critter } from 'app/providers/DataProvider/DataProvider';
 import { ConfigContext } from 'app/app';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { getMonthFromDate, MonthAlias } from 'app/utils/date-utils';
 
-const columnDefs: Array<Column<Fish>> = [
+const columnDefs: Array<Column<Critter>> = [
 	{
 		title: '#',
 		field: 'id',
@@ -37,10 +37,6 @@ const columnDefs: Array<Column<Fish>> = [
 		field: 'location',
 	},
 	{
-		title: 'Shadow',
-		field: 'shadow',
-	},
-	{
 		title: 'Times',
 		field: 'times',
 		render: (data) => {
@@ -55,12 +51,14 @@ const columnDefs: Array<Column<Fish>> = [
 	},
 ];
 
-interface FishListProps {}
+interface CritterListProps {}
 
-const FishList: FC<FishListProps> = (props) => {
-	document.title = 'Fish List | ACE';
+const CritterList: FC<CritterListProps> = (props) => {
+	document.title = 'Critter List | ACE';
 
 	const data = useContext(DataContext);
+	const critters = data.critters;
+
 	const config = useContext(ConfigContext);
 
 	const now = new Date();
@@ -72,24 +70,24 @@ const FishList: FC<FishListProps> = (props) => {
 	const [locationFilter, setLocationFilter] = useState<string>('');
 
 	const locations = useMemo(() => {
-		let fishData = data.fish;
+		let critterData = critters;
 
 		const locationSet = new Set<string>();
 
-		for (const fish of fishData) {
-			locationSet.add(fish.location);
+		for (const critter of critterData) {
+			locationSet.add(critter.location);
 		}
 
 		return Array.from(locationSet);
-	}, [data.fish]);
+	}, [critters]);
 
-	const fishData = useMemo(() => {
-		let fishData = data.fish;
+	const critterData = useMemo(() => {
+		let critterData = critters;
 
 		if (timeFilter != null) {
 			// filter time
-			fishData = fishData.filter((fish) => {
-				for (const spawnBracket of fish.times) {
+			critterData = critterData.filter((critter) => {
+				for (const spawnBracket of critter.times) {
 					if (spawnBracket.label === 'All day') {
 						return true;
 					}
@@ -115,16 +113,16 @@ const FishList: FC<FishListProps> = (props) => {
 
 		if (locationFilter !== '') {
 			// filter location
-			fishData = fishData.filter((fish) => fish.location === locationFilter);
+			critterData = critterData.filter((critter) => critter.location === locationFilter);
 		}
 
 		if (monthFilter.length > 0) {
 			// filter month
-			fishData = fishData.filter((fish) => monthFilter.filter((month) => fish[month]).length > 0);
+			critterData = critterData.filter((critter) => monthFilter.filter((month) => critter[month]).length > 0);
 		}
 
-		return fishData;
-	}, [data, timeFilter, locationFilter, monthFilter]);
+		return critterData;
+	}, [critters, timeFilter, locationFilter, monthFilter]);
 
 	return (
 		<div>
@@ -244,9 +242,9 @@ const FishList: FC<FishListProps> = (props) => {
 				</Grid>
 				<Grid item xs={12}>
 					<EnhancedTable
-						title={`Fist List (${fishData.length}/${data.fish.length})`}
+						title={`Critter List (${critterData.length}/${data.critters.length})`}
 						columns={columnDefs}
-						data={fishData}
+						data={critterData}
 						options={{
 							search: true,
 							columnsButton: true,
@@ -260,4 +258,4 @@ const FishList: FC<FishListProps> = (props) => {
 	);
 };
 
-export default FishList;
+export default CritterList;

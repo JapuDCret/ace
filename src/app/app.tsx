@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 
 import { useTranslation } from 'react-i18next';
 
@@ -25,7 +26,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
-import FishList from 'app/pages/fish-list';
+import FishList from 'app/pages/FishList';
+import CritterList from 'app/pages/CritterList';
 
 interface AppConfig {
 	useAmericanTimeFormat: boolean;
@@ -56,9 +58,10 @@ const useStyles = makeStyles({
 
 interface AppProps {}
 
-const App: React.FC<AppProps> = (props) => {
+const App: React.FC<AppProps> = () => {
 	const classes = useStyles();
 	const [height, setHeight] = useState(0);
+	const history = useHistory();
 
 	const headerRef = useCallback((node) => {
 		if (node !== null) {
@@ -73,6 +76,12 @@ const App: React.FC<AppProps> = (props) => {
 	const [useAmericanTimeFormat, setUseAmericanTimeFormat] = React.useState<boolean>(
 		defaultConfig.useAmericanTimeFormat
 	);
+
+	const changePage = (path: '/' | '/fish-list' | '/critter-list'): void => {
+		history.push(path);
+
+		setMenuOpen(false);
+	};
 
 	return (
 		<div>
@@ -128,17 +137,24 @@ const App: React.FC<AppProps> = (props) => {
 						onOpen={() => setMenuOpen(true)}
 					>
 						<List>
-							<ListItem button key={'nav-item-001'}>
+							<ListItem button key={'nav-to-start'} onClick={() => changePage('/')}>
 								<ListItemIcon>
 									<InboxIcon />
 								</ListItemIcon>
-								<ListItemText primary={'Navigation Item#1'} />
+								<ListItemText primary={'Start'} />
 							</ListItem>
-							<ListItem button key={'nav-item-002'}>
+
+							<ListItem button key={'nav-to-fish-list'} onClick={() => changePage('/fish-list')}>
 								<ListItemIcon>
 									<MailIcon />
 								</ListItemIcon>
-								<ListItemText primary={'Navigation Item#2'} />
+								<ListItemText primary={'Fish List'} />
+							</ListItem>
+							<ListItem button key={'nav-to-critter-list'} onClick={() => changePage('/critter-list')}>
+								<ListItemIcon>
+									<MailIcon />
+								</ListItemIcon>
+								<ListItemText primary={'Critter List'} />
 							</ListItem>
 						</List>
 					</SwipeableDrawer>
@@ -151,7 +167,19 @@ const App: React.FC<AppProps> = (props) => {
 				>
 					<Box p={1}>
 						<Container maxWidth="lg">
-							<FishList />
+							<Switch>
+								<Route path="/" exact>
+									<p>Hello World</p>
+								</Route>
+
+								<Route path="/fish-list" component={FishList} />
+
+								<Route path="/critter-list" component={CritterList} />
+
+								<Route path="*">
+									<Redirect to="/" />
+								</Route>
+							</Switch>
 						</Container>
 					</Box>
 				</div>
