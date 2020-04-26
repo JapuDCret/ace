@@ -60,5 +60,8 @@ typings/
 # next.js build output
 .next
 
-# Marinas History package
+# History package
 **/.history
+
+# Production builds
+build/
