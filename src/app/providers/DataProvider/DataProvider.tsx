@@ -7,6 +7,7 @@ import useAsyncEffect from 'use-async-effect';
 import { readCsvFile } from 'app/utils/request-utils';
 import * as fishCsvFile from 'assets/data/fish.csv';
 import * as fishTranslationsCsvFile from 'assets/data/fish-translations.csv';
+import * as crittersCsvFile from 'assets/data/critters.csv';
 
 export type ShadowSize = 'Tiny' | 'Small' | 'Medium' | 'Large' | 'VeryLarge';
 
@@ -20,12 +21,11 @@ export interface SpawnTime {
 	endMinutes: number;
 }
 
-export interface Fish {
+export interface Creature {
 	id: number;
 	name: string;
 	price: number;
 	location: string;
-	shadow: ShadowSize;
 	times: Array<SpawnTime>;
 	jan: boolean;
 	feb: boolean;
@@ -41,18 +41,26 @@ export interface Fish {
 	dec: boolean;
 }
 
+export interface Fish extends Creature {
+	shadow: ShadowSize;
+}
+
 export interface FishTranslations {
 	id: number;
 	'en-US': string;
 	'de-DE': string;
 }
 
+export interface Critter extends Creature {}
+
 interface AppData {
 	fish: Fish[];
+	critters: Critter[];
 }
 
 const defaultData: AppData = {
 	fish: [],
+	critters: [],
 };
 
 export const DataContext = createContext<AppData>(defaultData);
@@ -130,6 +138,52 @@ const findTranslation = (language: string, itemId: number, translations: FishTra
 	return obj[language as keyof FishTranslations] as string;
 };
 
+const parseFish = (language: string, fishTranslations: FishTranslations[], entry: string[]): Fish => {
+	return {
+		id: Number(entry[0]),
+		name: findTranslation(language, Number(entry[0]), fishTranslations),
+		price: Number(entry[2]),
+		location: entry[3],
+		shadow: entry[4] as ShadowSize,
+		times: parseSpawnTimes(entry[5]),
+		jan: entry[6] === '1',
+		feb: entry[7] === '1',
+		mar: entry[8] === '1',
+		apr: entry[9] === '1',
+		may: entry[10] === '1',
+		jun: entry[11] === '1',
+		jul: entry[12] === '1',
+		aug: entry[13] === '1',
+		sep: entry[14] === '1',
+		oct: entry[15] === '1',
+		nov: entry[16] === '1',
+		dec: entry[17] === '1',
+	};
+};
+
+const parseCritter = (entry: string[]): Critter => {
+	return {
+		id: Number(entry[0]),
+		// name: findTranslation(language, Number(entry[0]), fishTranslations),
+		name: entry[1],
+		price: Number(entry[2]),
+		location: entry[3],
+		times: parseSpawnTimes(entry[4]),
+		jan: entry[5] === '1',
+		feb: entry[6] === '1',
+		mar: entry[7] === '1',
+		apr: entry[8] === '1',
+		may: entry[9] === '1',
+		jun: entry[10] === '1',
+		jul: entry[11] === '1',
+		aug: entry[12] === '1',
+		sep: entry[13] === '1',
+		oct: entry[14] === '1',
+		nov: entry[15] === '1',
+		dec: entry[16] === '1',
+	};
+};
+
 const DataProvider: FC<{}> = ({ children }) => {
 	const [data, setData] = useState<AppData>(defaultData);
 
@@ -138,37 +192,22 @@ const DataProvider: FC<{}> = ({ children }) => {
 	} = useTranslation();
 
 	useAsyncEffect(async () => {
-		const fishData = new Array<Fish>();
 		const fishTranslations: FishTranslations[] = await getFishTranslationData();
 
-		const rawData = await readCsvFile(fishCsvFile);
+		const rawFishData = await readCsvFile(fishCsvFile);
 
-		for (const entry of rawData) {
-			fishData.push({
-				id: Number(entry[0]),
-				name: findTranslation(language, Number(entry[0]), fishTranslations),
-				price: Number(entry[2]),
-				location: entry[3],
-				shadow: entry[4] as ShadowSize,
-				times: parseSpawnTimes(entry[5]),
-				jan: entry[6] === '1',
-				feb: entry[7] === '1',
-				mar: entry[8] === '1',
-				apr: entry[9] === '1',
-				may: entry[10] === '1',
-				jun: entry[11] === '1',
-				jul: entry[12] === '1',
-				aug: entry[13] === '1',
-				sep: entry[14] === '1',
-				oct: entry[15] === '1',
-				nov: entry[16] === '1',
-				dec: entry[17] === '1',
-			});
-		}
+		const fishData = rawFishData.map((entry) => parseFish(language, fishTranslations, entry));
+
+		const rawCritterData = await readCsvFile(crittersCsvFile);
+
+		const critterData = rawCritterData.map((entry) => parseCritter(entry));
+
+		console.log('critterData = ', critterData);
 
 		setData({
 			...data,
 			fish: fishData,
+			critters: critterData,
 		});
 	}, [language]);
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import { I18nextProvider } from 'react-i18next';
 
@@ -22,7 +23,9 @@ const Renderer: React.FC<RendererProps> = () => {
 			<I18nextProvider i18n={i18n}>
 				<MuiPickersUtilsProvider utils={DateFnsUtils}>
 					<DataProvider>
-						<App />
+						<Router>
+							<App />
+						</Router>
 					</DataProvider>
 				</MuiPickersUtilsProvider>
 			</I18nextProvider>
