@@ -1,12 +1,10 @@
 
-async function later(delay: number): Promise<void> {
+export async function later(delay: number): Promise<void> {
 	return new Promise(function (resolve) {
 		setTimeout(resolve, delay);
 	});
 }
 
-const FunctionUtils = {
-	later: later
+export function importAll(r: __WebpackModuleApi.RequireContext) {
+	return r.keys().map(r);
 }
-
-export default FunctionUtils;

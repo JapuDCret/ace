@@ -10,9 +10,17 @@ import ReactDOM from 'react-dom';
 import Renderer from 'app/renderer';
 
 async function run(): Promise<void> {
+	const debug = process.env.DEBUG || false;
+	const isProd = process.env.PRODUCTION || false;
+	const basePath = process.env.REACT_APP_ROUTER_BASE || '';
+
+	console.log('debug = ', debug);
+	console.log('isProd = ', isProd);
+	console.log('basePath = ', basePath);
 
 	let renderer = (
 		<Renderer
+			basePath={basePath}
 		/>
 	);
 

@@ -11,17 +11,24 @@ import { KeyboardTimePicker } from '@material-ui/pickers';
 import ClearIcon from '@material-ui/icons/Clear';
 
 import EnhancedTable from 'app/components/EnhancedTable';
-import { DataContext, Critter } from 'app/providers/DataProvider/DataProvider';
+import { DataContext, Critter, SpawnTime } from 'app/providers/DataProvider/DataProvider';
 import { ConfigContext } from 'app/app';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { getMonthFromDate, MonthAlias } from 'app/utils/date-utils';
+import { mapFilesToDictionary } from 'app/utils/request-utils';
+
+const critterImages = mapFilesToDictionary(require.context('assets/img/critters/', false, /\.(png|jpe?g|svg)$/), 'critter');
 
 const columnDefs: Array<Column<Critter>> = [
 	{
-		title: '#',
+		title: '',
 		field: 'id',
-		type: 'numeric',
+		render: (critter) => {
+			return (
+				<img src={critterImages[`${critter.id}`]} />
+			);
+		}
 	},
 	{
 		title: 'Name',
@@ -39,6 +46,24 @@ const columnDefs: Array<Column<Critter>> = [
 	{
 		title: 'Times',
 		field: 'times',
+		customSort: (fish1, fish2, type) => {
+			const findBiggestSpawnTime = (previousValue: SpawnTime, currentValue: SpawnTime) => {
+				if (previousValue.label === 'All day') {
+					return currentValue;
+				}
+
+				if (previousValue.startHours < currentValue.startHours) {
+					return currentValue;
+				}
+
+				return previousValue;
+			};
+
+			const hoursForFish1 = fish1.times.reduce(findBiggestSpawnTime).startHours;
+			const hoursForFish2 = fish2.times.reduce(findBiggestSpawnTime).startHours;
+
+			return hoursForFish1 - hoursForFish2;
+		},
 		render: (data) => {
 			return (
 				<List>
@@ -92,13 +117,21 @@ const CritterList: FC<CritterListProps> = (props) => {
 						return true;
 					}
 
-					let filterMinutes = timeFilter.getHours() * 60 + timeFilter.getMinutes(); // 83
-					let startMinutes = spawnBracket.startHours * 60 + spawnBracket.startMinutes; // 16:00 => 960
-					let endMinutes = spawnBracket.endHours * 60 + spawnBracket.endMinutes; // 09:00 => 540
+					let filterMinutes = timeFilter.getHours() * 60 + timeFilter.getMinutes();
+					let startMinutes = spawnBracket.startHours * 60 + spawnBracket.startMinutes;
+					let endMinutes = spawnBracket.endHours * 60 + spawnBracket.endMinutes;
 					if (startMinutes > endMinutes) {
-						filterMinutes += 24 * 60; // 540 + 3600 => 4140
 						endMinutes += 24 * 60; // 540 + 3600 => 4140
 					}
+
+					if (filterMinutes >= startMinutes) {
+						if (filterMinutes <= endMinutes) {
+							return true;
+						}
+					}
+
+					// if the first one didn't match, we'll leap a day: this fixes issues, when the time is 01:23 and very small
+					filterMinutes += 24 * 60; // 540 + 3600 => 4140
 
 					if (filterMinutes >= startMinutes) {
 						if (filterMinutes <= endMinutes) {

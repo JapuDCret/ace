@@ -13,9 +13,11 @@ import i18n from 'app/i18n';
 import App from 'app/app';
 import DataProvider from 'app/providers/DataProvider';
 
-interface RendererProps {}
+interface RendererProps {
+	basePath: string;
+}
 
-const Renderer: React.FC<RendererProps> = () => {
+const Renderer: React.FC<RendererProps> = (props) => {
 	i18n.changeLanguage(navigator.language);
 
 	return (
@@ -23,7 +25,7 @@ const Renderer: React.FC<RendererProps> = () => {
 			<I18nextProvider i18n={i18n}>
 				<MuiPickersUtilsProvider utils={DateFnsUtils}>
 					<DataProvider>
-						<Router>
+						<Router basename={props.basePath}>
 							<App />
 						</Router>
 					</DataProvider>
