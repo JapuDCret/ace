@@ -27,7 +27,7 @@ id;name;price;location;shadow;times;jan;feb;mar;apr;may;jun;jul;aug;sep;oct;nov;
 26;Sweetfish;900;River;Medium;All day;0;0;0;0;0;0;1;1;1;0;0;0
 27;Cherry Salmon;1000;River (Clifftop);Medium;16:00 - 9:00;0;0;1;1;1;1;0;0;1;1;1;0
 28;Char;3800;River (Clifftop);Medium;All day;0;0;1;1;1;1;0;0;1;1;1;0
-29;Golden Trout;15000;River (Clifftop);Medium;All day;0;0;1;1;1;0;0;0;1;1;1;0
+29;Golden Trout;15000;River (Clifftop);Medium;16:00 - 9:00;0;0;1;1;1;0;0;0;1;1;1;0
 30;Stringfish;15000;River (Clifftop);Huge;16:00 - 9:00;1;1;1;0;0;0;0;0;0;0;0;1
 31;Salmon;700;River (Mouth);Large;All day;0;0;0;0;0;0;0;0;1;0;0;0
 32;King Salmon;1800;River (Mouth);Huge;All day;0;0;0;0;0;0;0;0;1;0;0;0
