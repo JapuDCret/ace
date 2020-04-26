@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
@@ -18,6 +18,7 @@ import {
 	TextField,
 	MenuItem,
 	Box,
+	Container,
 } from '@material-ui/core';
 
 import MenuIcon from '@material-ui/icons/Menu';
@@ -27,11 +28,11 @@ import MailIcon from '@material-ui/icons/Mail';
 import FishList from 'app/pages/fish-list';
 
 interface AppConfig {
-    useAmericanTimeFormat: boolean;
-};
+	useAmericanTimeFormat: boolean;
+}
 
 const defaultConfig: AppConfig = {
-    useAmericanTimeFormat: false,
+	useAmericanTimeFormat: false,
 };
 
 export const ConfigContext = React.createContext<AppConfig>(defaultConfig);
@@ -45,67 +46,80 @@ const useStyles = makeStyles({
 
 			'&:hover': {
 				borderColor: `${grey[500]} !important`,
-			}
+			},
 		},
 	},
 	inputLabel: {
 		color: `${grey[50]} !important`,
 	},
-  });
+});
 
 interface AppProps {}
 
 const App: React.FC<AppProps> = (props) => {
 	const classes = useStyles();
+	const [height, setHeight] = useState(0);
 
-	const { t, i18n } = useTranslation();
-	
+	const headerRef = useCallback((node) => {
+		if (node !== null) {
+			setHeight(node.getBoundingClientRect().height);
+		}
+	}, []);
+
+	const { i18n } = useTranslation();
+
 	const [menuOpen, setMenuOpen] = useState(false);
-	
-    const [ useAmericanTimeFormat, setUseAmericanTimeFormat ] = React.useState<boolean>(defaultConfig.useAmericanTimeFormat);
+
+	const [useAmericanTimeFormat, setUseAmericanTimeFormat] = React.useState<boolean>(
+		defaultConfig.useAmericanTimeFormat
+	);
 
 	return (
 		<div>
 			<ConfigContext.Provider value={{ useAmericanTimeFormat }}>
 				<nav>
-					<AppBar position="static">
-						<Toolbar>
-							<Grid container justify="space-between" alignItems="center">
-								<Grid container item xs={4} alignItems="center">
-									<IconButton
-										edge="start"
-										color="inherit"
-										aria-label="menu"
-										onClick={() => setMenuOpen(!menuOpen)}
-									>
-										<MenuIcon />
-									</IconButton>
-									<Typography variant="h6">ACE</Typography>
+					<AppBar ref={headerRef} position="fixed">
+						<Container maxWidth="lg">
+							<Toolbar style={{ padding: '1rem 8px' }}>
+								<Grid container justify="space-between" alignItems="center">
+									<Grid container item xs={4} alignItems="center">
+										<IconButton
+											edge="start"
+											color="inherit"
+											aria-label="menu"
+											onClick={() => setMenuOpen(!menuOpen)}
+										>
+											<MenuIcon />
+										</IconButton>
+										<Typography variant="h6">ACE</Typography>
+									</Grid>
+									<Grid item>
+										<TextField
+											id="language-select"
+											label="Language"
+											select
+											variant="outlined"
+											InputProps={{
+												className: classes.input,
+											}}
+											InputLabelProps={{
+												className: classes.inputLabel,
+											}}
+											value={i18n.language}
+											onChange={(e) => i18n.changeLanguage(e.target.value)}
+										>
+											{i18n.languages.map((language) => {
+												return (
+													<MenuItem key={language} value={language}>
+														{language}
+													</MenuItem>
+												);
+											})}
+										</TextField>
+									</Grid>
 								</Grid>
-								<Grid item>
-									<TextField
-										id="language-select"
-										label="Language"
-										select
-										variant="outlined"
-										InputProps={{
-											className: classes.input,
-										}}
-										InputLabelProps={{
-											className: classes.inputLabel,
-										}}
-										value={i18n.language}
-										onChange={(e) => i18n.changeLanguage(e.target.value)}
-									>
-										{i18n.languages.map((language) => {
-											return (
-											<MenuItem key={language} value={language}>{language}</MenuItem>
-											);
-										})}
-									</TextField>
-								</Grid>
-							</Grid>
-						</Toolbar>
+							</Toolbar>
+						</Container>
 					</AppBar>
 					<SwipeableDrawer
 						anchor={'left'}
@@ -129,9 +143,16 @@ const App: React.FC<AppProps> = (props) => {
 						</List>
 					</SwipeableDrawer>
 				</nav>
-				<div id="content">
+				<div
+					id="content"
+					style={{
+						marginTop: `${height}px`,
+					}}
+				>
 					<Box p={1}>
-						<FishList />
+						<Container maxWidth="lg">
+							<FishList />
+						</Container>
 					</Box>
 				</div>
 			</ConfigContext.Provider>
